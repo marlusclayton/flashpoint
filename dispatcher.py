@@ -17,10 +17,10 @@ class Dispatcher:
         self.setPlayer(player)
 
     def setPlayer(self, player):
-        self.players[player.username.lower] = player
+        self.players[player.username.lower()] = player
 
     def getPlayer(self, username):
-        return players[username.lower()]
+        return self.players[username.lower()]
 
     def showmap(self):
         self.map.save()
@@ -51,8 +51,8 @@ class Dispatcher:
 
 d = Dispatcher()
 d.addPlayer("Marlus", "paramedic", "white")
-d.moveto("")
-d.saveMap()
+d.moveto("Marlus", 0, 0)
+d.showmap()
 
 
 #367, 344

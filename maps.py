@@ -5,7 +5,7 @@ class Map:
 
     def __init__(self, name):
         self.name = name
-        self.load(name)
+        self.load()
 
     def load(self):
         self.image = Image.open( "assets/maps/{}.jpg".format(self.name) )
