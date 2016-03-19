@@ -12,9 +12,7 @@ class Character(object):
         self.color = color
         self.width = 120
         self.height = 120
-        self.red = 0
         self.offsetRed = self.height/2
-        self.black = 0
         self.offsetBlack = self.width/2
         self.image = Image.open("assets/characters/{}_{}.png".format(self.role, self.color)).resize((self.width,self.height))
 
@@ -33,6 +31,10 @@ class Character(object):
         return Standard(color)
         assert 0, "Bad creation: " + type
     factory = staticmethod(factory)
+
+def position(red, black):
+    self.red = red
+    self.black = black
 
 class CAFS(Character):
     def __init__(self, color):

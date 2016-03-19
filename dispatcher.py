@@ -22,19 +22,37 @@ class Dispatcher:
     def getPlayer(self, username):
         return self.players[username.lower()]
 
-    def showmap(self):
-        self.map.save()
-
-    def moveto(self, username, red, black):
-        character = self.getPlayer(username).character
-        character.red = red
-        character.black = black
-        self.map.position(character)
-
-# admin
+# admin commands
 # playerorder(players...), showmap, role(role), color(color), admin(user, command),
 # addhazard(smoke/fire/hotspot/hazmat, red, black), removehazard(smoke/fire/hotspot/hazmat, red, black),
 # addlink(damage/door, red, black, direction), removelink(damage/door, red, black, direction), flashover(), explode(red, black), bank(damage/hotspot, quantity)
+    def playerorder(self, *players):
+        self.player_order = players
+        print "player order: {}".format(self.player_order)
+
+    def showmap(self):
+        self.map.save()
+
+    def role(self, username, role):
+        player = self.getPlayer(username)
+        character = player.character
+        red = character.red
+        black = character.black
+        player.role(role)
+        player.position(red, black)
+
+    def color(self, username, color):
+        player = self.getPlayer(username)
+        character = player.character
+        red = character.red
+        black = character.black
+        player.color(color)
+        player.position(red, black)
+
+    def moveto(self, username, red, black):
+        character = self.getPlayer(username).character
+        character.position(red, black)
+        self.map.position(character)
 
 # general
 # move(direction), movevictim(direction), move2victim(direction), movehazmat(direction),
@@ -51,8 +69,11 @@ class Dispatcher:
 
 d = Dispatcher()
 d.addPlayer("Marlus", "paramedic", "white")
+d.addPlayer("Danilo", "driver", "blue")
 d.moveto("Marlus", 0, 0)
-d.showmap()
+d.moveto("Danilo", 0, 0)
+d.playerorder("Danilo", "Marlus")
+#d.showmap()
 
 
 #367, 344
