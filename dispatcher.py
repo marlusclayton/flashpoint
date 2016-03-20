@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from characters import *
+from firefighters import *
 from maps import StandardMap
 from players import Player
 import random
@@ -7,31 +7,29 @@ import random
 class Dispatcher:
 
     players = {}
-    board = [[0 for x in range(8)] for x in range(10)]
 
     def __init__(self):
         self.map = StandardMap()
 
-    def addPlayer(self, username, role, color):
-        player = Player(username, role, color)
-        self.setPlayer(player)
+    def create_firefighter(self, role, player):
+        firefighter = Firefighter.factory(role, player)
+        self.map.add_firefighter(firefighter)
+        return firefighter
 
-    def setPlayer(self, player):
-        self.players[player.username.lower()] = player
-
-    def getPlayer(self, username):
-        return self.players[username.lower()]
+    def create_player(self, username, color):
+        player = Player(username, color)
+        return player
 
 # admin commands
 # playerorder(players...), showmap, role(role), color(color), admin(user, command),
 # addhazard(smoke/fire/hotspot/hazmat, red, black), removehazard(smoke/fire/hotspot/hazmat, red, black),
 # addlink(damage/door, red, black, direction), removelink(damage/door, red, black, direction), flashover(), explode(red, black), bank(damage/hotspot, quantity)
-    def playerorder(self, *players):
-        self.player_order = players
-        print "player order: {}".format(self.player_order)
+    def turn_order(self, *firefighters):
+        self.turn_order = firefighters
+        print "turn order: {}".format(self.turn_order)
 
-    def showmap(self):
-        self.map.save()
+    def show_map(self):
+        self.map.draw_map()
 
     def role(self, username, role):
         player = self.getPlayer(username)
@@ -49,10 +47,10 @@ class Dispatcher:
         player.color(color)
         player.position(red, black)
 
-    def moveto(self, username, red, black):
-        character = self.getPlayer(username).character
-        character.position(red, black)
-        self.map.position(character)
+    def move_to(self, role, red, black):
+        firefighter = self.map.firefighters[role]
+        firefighter.set_position(red, black)
+        self.map.firefighters[role] = firefighter
 
 # general
 # move(direction), movevictim(direction), move2victim(direction), movehazmat(direction),
@@ -68,12 +66,18 @@ class Dispatcher:
 # getladder, dropladder, erectladder, collapseladder
 
 d = Dispatcher()
-d.addPlayer("Marlus", "paramedic", "white")
-d.addPlayer("Danilo", "driver", "blue")
-d.moveto("Marlus", 0, 0)
-d.moveto("Danilo", 0, 0)
-d.playerorder("Danilo", "Marlus")
-#d.showmap()
+marlus = d.create_player("Marlus", "white")
+danilo = d.create_player("Danilo", "blue")
+
+d.create_firefighter("paramedic", marlus)
+d.create_firefighter("driver", danilo)
+
+d.move_to("paramedic", 0, 0)
+d.move_to("driver", 0, 0)
+
+d.turn_order("paramedic", "driver")
+
+d.show_map()
 
 
 #367, 344
