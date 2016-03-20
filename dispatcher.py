@@ -68,14 +68,29 @@ class Dispatcher:
 d = Dispatcher()
 marlus = d.create_player("Marlus", "white")
 danilo = d.create_player("Danilo", "blue")
+ricardo = d.create_player("Ricardo", "red")
 
 d.create_firefighter("paramedic", marlus)
 d.create_firefighter("driver", danilo)
+d.create_firefighter("rescue_dog", ricardo)
 
-d.move_to("paramedic", 0, 0)
-d.move_to("driver", 0, 0)
+red = random.randint(0, 8)
+black = random.randint(0, 10)
+print "move to {} {}".format(red, black)
+d.move_to("paramedic", red, black)
 
-d.turn_order("paramedic", "driver")
+red = random.randint(0, 8)
+black = random.randint(0, 10)
+print "move to {} {}".format(red, black)
+d.move_to("driver", red, black)
+
+red = random.randint(0, 8)
+black = random.randint(0, 10)
+print "move to {} {}".format(red, black)
+d.move_to("rescue_dog", red, black)
+
+
+d.turn_order("driver", "rescue_dog", "paramedic")
 
 d.show_map()
 

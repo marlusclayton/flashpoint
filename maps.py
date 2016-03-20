@@ -13,10 +13,10 @@ class Map:
         self.name = name
 
     def add_firefighter(self, firefighter):
-        self.firefighters[firefighter.role] = firefighter
+        self.firefighters[firefighter.role.lower()] = firefighter
 
     def get_firefighter(self, role):
-        return self.firefighters[role]
+        return self.firefighters[role.lower()]
 
     # def add_hazard(self, hazard):
     #     self.hazards[hazard.id] = hazard
