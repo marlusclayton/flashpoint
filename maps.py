@@ -4,7 +4,7 @@ from PIL import Image, ImageFilter
 class Map:
 
     firefighters = {}
-    # hazards = {}
+    hazards = {}
     # pois = {}
     # links = {}
     # vehicles = {}
@@ -18,9 +18,12 @@ class Map:
     def get_firefighter(self, role):
         return self.firefighters[role.lower()]
 
-    # def add_hazard(self, hazard):
-    #     self.hazards[hazard.id] = hazard
-    #
+    def add_hazard(self, hazard):
+        self.hazards[hazard.id] = hazard
+
+    def get_hazard(self, id):
+        return self.hazards[id]
+
     # def add_poi(self, poi):
     #     self.pois[poi.id] = poi
     #
@@ -33,11 +36,14 @@ class Map:
     def draw_map(self):
         self.image = Image.open( "assets/maps/{}.jpg".format(self.name) )
 
-        self.draw_entities(self.image, self.firefighters)
+        self.draw_entities(self.firefighters)
+
+        self.draw_entities(self.hazards)
 
         self.image.save('output/output.jpg', 'JPEG')
 
-    def draw_entities(self, image, entities):
+    def draw_entities(self, entities):
+        image = self.image
         new_image = Image.new(image.mode, image.size)
         new_image.paste(image)
 
