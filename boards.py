@@ -37,11 +37,11 @@ class Board:
     def draw(self):
         self.image = Image.open( "assets/maps/{}.jpg".format(self.name) )
 
-        for firefighter in self.firefighters.itervalues():
-            firefighter.draw(self)
-
         for hazard in self.hazards.itervalues():
             hazard.draw(self)
+
+        for firefighter in self.firefighters.itervalues():
+            firefighter.draw(self)
 
         self.image.save('output/output.jpg', 'JPEG')
 
