@@ -3,9 +3,9 @@ from dispatcher import Dispatcher
 import random
 
 d = Dispatcher()
-marlus = d.create_player("Marlus", "white")
-danilo = d.create_player("Danilo", "blue")
-ricardo = d.create_player("Ricardo", "red")
+player1 = d.create_player("Player 1", "white")
+player2 = d.create_player("Player 2", "blue")
+player3 = d.create_player("Player 3", "red")
 
 d.create_firefighter("paramedic", marlus)
 d.create_firefighter("driver", danilo)

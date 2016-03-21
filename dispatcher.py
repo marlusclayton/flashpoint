@@ -6,8 +6,6 @@ from hazards import *
 
 class Dispatcher:
 
-    players = {}
-
     def __init__(self):
         self.board = StandardBoard()
 
@@ -17,35 +15,14 @@ class Dispatcher:
         return firefighter
 
     def create_player(self, username, color):
-        player = Player(username, color)
-        return player
+        return Player(username, color)
 
-# admin commands
-# playerorder(players...), showmap, role(role), color(color), admin(user, command),
-# addhazard(smoke/fire/hotspot/hazmat, red, black), removehazard(smoke/fire/hotspot/hazmat, red, black),
-# addlink(damage/door, red, black, direction), removelink(damage/door, red, black, direction), flashover(), explode(red, black), bank(damage/hotspot, quantity)
     def turn_order(self, *firefighters):
         self.turn_order = firefighters
         print "turn order: {}".format(self.turn_order)
 
     def show_board(self):
         self.board.draw()
-
-    def role(self, username, role):
-        player = self.getPlayer(username)
-        character = player.character
-        red = character.red
-        black = character.black
-        player.role(role)
-        player.position(red, black)
-
-    def color(self, username, color):
-        player = self.getPlayer(username)
-        character = player.character
-        red = character.red
-        black = character.black
-        player.color(color)
-        player.position(red, black)
 
     def move_to(self, role, red, black):
         firefighter = self.board.firefighters[role]
@@ -57,6 +34,10 @@ class Dispatcher:
         if not (self.board.hazards.has_key(hazard.key)):
             self.board.hazards[hazard.key] = hazard
 
+# admin commands
+# playerorder(players...), showmap, role(role), color(color), admin(user, command),
+# addhazard(smoke/fire/hotspot/hazmat, red, black), removehazard(smoke/fire/hotspot/hazmat, red, black),
+# addlink(damage/door, red, black, direction), removelink(damage/door, red, black, direction), flashover(), explode(red, black), bank(damage/hotspot, quantity)
 
 # general
 # move(direction), movevictim(direction), move2victim(direction), movehazmat(direction),
