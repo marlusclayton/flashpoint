@@ -2,47 +2,43 @@
 from dispatcher import Dispatcher
 import random
 
+def random_coords():
+    return (random.randint(1, 6), random.randint(1, 8))
+
 d = Dispatcher()
 player1 = d.create_player("Player 1", "white")
 player2 = d.create_player("Player 2", "blue")
 player3 = d.create_player("Player 3", "red")
 
-d.create_firefighter("paramedic", marlus)
-d.create_firefighter("driver", danilo)
-d.create_firefighter("rescue_dog", ricardo)
+d.create_firefighter("paramedic", player1)
+d.create_firefighter("driver", player2)
+d.create_firefighter("rescue_dog", player3)
 
-red = random.randint(0, 7)
-black = random.randint(0, 9)
+red, black = random_coords()
 print "move to {} {}".format(red, black)
 d.move_to("paramedic", red, black)
 
-red = random.randint(0, 7)
-black = random.randint(0, 9)
+red, black = random_coords()
 print "move to {} {}".format(red, black)
 d.move_to("driver", red, black)
 
-red = random.randint(0, 7)
-black = random.randint(0, 9)
+red, black = random_coords()
 print "move to {} {}".format(red, black)
 d.move_to("rescue_dog", red, black)
 
-red = random.randint(1, 6)
-black = random.randint(1, 8)
+red, black = random_coords()
 print "smoke at {} {}".format(red, black)
 d.add_hazard("smoke", red, black)
 
-red = random.randint(1, 6)
-black = random.randint(1, 8)
+red, black = random_coords()
 print "fire at {} {}".format(red, black)
 d.add_hazard("fire", red, black)
 
-red = random.randint(1, 6)
-black = random.randint(1, 8)
+red, black = random_coords()
 print "hazmat at {} {}".format(red, black)
 d.add_hazard("hazmat", red, black)
 
-red = random.randint(1, 6)
-black = random.randint(1, 8)
+red, black = random_coords()
 print "hot_spot at {} {}".format(red, black)
 d.add_hazard("hot_spot", red, black)
 

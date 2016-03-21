@@ -10,7 +10,7 @@ class Dispatcher:
         self.board = StandardBoard()
 
     def create_firefighter(self, role, player):
-        firefighter = Firefighter.factory(role, player)
+        firefighter = Firefighter.factory(role, player, 0, 0)
         self.board.add_firefighter(firefighter)
         return firefighter
 

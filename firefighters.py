@@ -1,107 +1,79 @@
 #!/usr/bin/python
 from __future__ import generators, unicode_literals
-from PIL import Image, ImageFilter
+from entities import Entity
 
-class Firefighter(object):
+class Firefighter(Entity):
 
-    ROLES = ["cafs_firefighter", "driver", "fire_captain", "generalist", "hazmat_technician", "imaging_technician", "paramedic", "rescue_dog", "rescue_specialist", "structural_engineer", "veteran", "standard"]
-    COLORS = ["blue", "green", "orange", "red", "white", "yellow"]
+    # ROLES = ["cafs_firefighter", "driver", "fire_captain", "generalist", "hazmat_technician", "imaging_technician", "paramedic", "rescue_dog", "rescue_specialist", "structural_engineer", "veteran", "standard"]
 
-    def __init__(self, role, player):
+    def __init__(self, role, player, red, black):
+        Entity.__init__(self, role, red, black)
         self.set_player(player)
-
         self.role = role
-        self.width = 120
-        self.height = 120
-        self.offsetRed = self.height/2
-        self.offsetBlack = self.width/2
-        self.image = Image.open("assets/firefighters/{}_{}.png".format(self.role, self.player.color)).resize((self.width,self.height))
+        self.image_name = "assets/firefighters/{}_{}.png".format(self.role, self.player.color)
 
     @staticmethod
-    def factory(role, player):
-        if role == "cafs_firefighter": return CAFS(player)
-        if role == "driver": return Driver(player)
-        if role == "fire_captain": return Captain(player)
-        if role == "generalist": return Generalist(player)
-        if role == "hazmat_technician": return Hazmat(player)
-        if role == "imaging_technician": return Imaging(player)
-        if role == "paramedic": return Paramedic(player)
-        if role == "rescue_dog": return Dog(player)
-        if role == "rescue_specialist": return Rescue(player)
-        if role == "structural_engineer": return Engineer(player)
-        if role == "veteran": return Veteran(player)
+    def factory(role, player, red, black):
+        if role == "cafs_firefighter": return CAFS(player, red, black)
+        if role == "driver": return Driver(player, red, black)
+        if role == "fire_captain": return Captain(player, red, black)
+        if role == "generalist": return Generalist(player, red, black)
+        if role == "hazmat_technician": return Hazmat(player, red, black)
+        if role == "imaging_technician": return Imaging(player, red, black)
+        if role == "paramedic": return Paramedic(player, red, black)
+        if role == "rescue_dog": return Dog(player, red, black)
+        if role == "rescue_specialist": return Rescue(player, red, black)
+        if role == "structural_engineer": return Engineer(player, red, black)
+        if role == "veteran": return Veteran(player, red, black)
         return Standard(player)
-
-    def set_position(self, red, black):
-        self.red = red
-        self.black = black
 
     def set_player(self, player):
         self.player = player
 
-    def draw(self, map):
-        image = map.image
-        new_image = Image.new(image.mode, image.size)
-        new_image.paste(image)
-
-        translatedRed = map.translateRed(self.red)
-        translatedBlack = map.translateBlack(self.black)
-        left   = translatedBlack - self.offsetBlack
-        top    = translatedRed - self.offsetRed
-        right  = left + self.width
-        bottom = top + self.height
-
-        alpha = self.image.split()[-1]
-        new_image.paste(self.image, (left, top, right, bottom), mask=alpha)
-
-        map.image = new_image
-
-
-
 class CAFS(Firefighter):
-    def __init__(self, player):
-        Firefighter.__init__(self, "cafs_firefighter", player)
+    def __init__(self, player, red, black):
+        Firefighter.__init__(self, "cafs_firefighter", player, red, black)
 
 class Driver(Firefighter):
-    def __init__(self, player):
-        Firefighter.__init__(self, "driver", player)
+    def __init__(self, player, red, black):
+        Firefighter.__init__(self, "driver", player, red, black)
 
 class Captain(Firefighter):
-    def __init__(self, player):
-        Firefighter.__init__(self, "fire_captain", player)
+    def __init__(self, player, red, black):
+        Firefighter.__init__(self, "fire_captain", player, red, black)
 
 class Generalist(Firefighter):
-    def __init__(self, player):
-        Firefighter.__init__(self, "generalist", player)
+    def __init__(self, player, red, black):
+        Firefighter.__init__(self, "generalist", player, red, black)
 
 class Hazmat(Firefighter):
-    def __init__(self, player):
-        Firefighter.__init__(self, "hazmat_technician", player)
+    def __init__(self, player, red, black):
+        Firefighter.__init__(self, "hazmat_technician", player, red, black)
 
 class Imaging(Firefighter):
-    def __init__(self, player):
-        Firefighter.__init__(self, "imaging_technician", player)
+    def __init__(self, player, red, black):
+        Firefighter.__init__(self, "imaging_technician", player, red, black)
 
 class Paramedic(Firefighter):
-    def __init__(self, player):
-        Firefighter.__init__(self, "paramedic", player)
+    def __init__(self, player, red, black):
+        Firefighter.__init__(self, "paramedic", player, red, black)
 
 class Dog(Firefighter):
-    def __init__(self, player):
-        Firefighter.__init__(self, "rescue_dog", player)
+    def __init__(self, player, red, black):
+        Firefighter.__init__(self, "rescue_dog", player, red, black)
 
 class Rescue(Firefighter):
-    def __init__(self, player):
-        Firefighter.__init__(self, "rescue_specialist", player)
+    def __init__(self, player, red, black):
+        Firefighter.__init__(self, "rescue_specialist", player, red, black)
 
 class Standard(Firefighter):
-    def __init__(self, player):
-        Firefighter.__init__(self, "standard", player)
+    def __init__(self, player, red, black):
+        Firefighter.__init__(self, "standard", player, red, black)
 
 class Engineer(Firefighter):
-    def __init__(self, player):
-        Firefighter.__init__(self, "structural_engineer", player)
+    def __init__(self, player, red, black):
+        Firefighter.__init__(self, "structural_engineer", player, red, black)
 
 class Veteran(Firefighter):
-    def __init__(self, player):
-        Firefighter.__init__(self, "veteran", player)
+    def __init__(self, player, red, black):
+        Firefighter.__init__(self, "veteran", player, red, black)
