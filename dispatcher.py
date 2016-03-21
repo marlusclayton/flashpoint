@@ -1,7 +1,7 @@
 #!/usr/bin/python
 from firefighters import *
 from hazards import *
-from maps import StandardMap
+from boards import StandardBoard
 from players import Player
 import random
 
@@ -10,11 +10,11 @@ class Dispatcher:
     players = {}
 
     def __init__(self):
-        self.map = StandardMap()
+        self.board = StandardBoard()
 
     def create_firefighter(self, role, player):
         firefighter = Firefighter.factory(role, player)
-        self.map.add_firefighter(firefighter)
+        self.board.add_firefighter(firefighter)
         return firefighter
 
     def create_player(self, username, color):
@@ -29,8 +29,8 @@ class Dispatcher:
         self.turn_order = firefighters
         print "turn order: {}".format(self.turn_order)
 
-    def show_map(self):
-        self.map.draw_map()
+    def show_board(self):
+        self.board.draw()
 
     def role(self, username, role):
         player = self.getPlayer(username)
@@ -49,14 +49,14 @@ class Dispatcher:
         player.position(red, black)
 
     def move_to(self, role, red, black):
-        firefighter = self.map.firefighters[role]
+        firefighter = self.board.firefighters[role]
         firefighter.set_position(red, black)
-        self.map.firefighters[role] = firefighter
+        self.board.firefighters[role] = firefighter
 
     def add_hazard(self, hazard_type, red, black):
         hazard = Hazard.factory(hazard_type, red, black)
-        if not (self.map.hazards.has_key(hazard.key)):
-            self.map.hazards[hazard.key] = hazard
+        if not (self.board.hazards.has_key(hazard.key)):
+            self.board.hazards[hazard.key] = hazard
 
 
 # general
@@ -118,7 +118,7 @@ d.add_hazard("hot_spot", red, black)
 
 d.turn_order("driver", "rescue_dog", "paramedic")
 
-d.show_map()
+d.show_board()
 
 
 #367, 344
