@@ -36,31 +36,13 @@ class Map:
     def draw_map(self):
         self.image = Image.open( "assets/maps/{}.jpg".format(self.name) )
 
-        self.draw_entities(self.firefighters)
+        for firefighter in self.firefighters.itervalues():
+            firefighter.draw(self)
 
-        self.draw_entities(self.hazards)
+        for hazard in self.hazards.itervalues():
+            hazard.draw(self)
 
         self.image.save('output/output.jpg', 'JPEG')
-
-    def draw_entities(self, entities):
-        image = self.image
-        new_image = Image.new(image.mode, image.size)
-        new_image.paste(image)
-
-        for entity in entities.itervalues():
-            red = entity.red
-            black = entity.black
-            translatedRed = self.translateRed(red)
-            translatedBlack = self.translateBlack(black)
-            left   = translatedBlack - entity.offsetBlack
-            top    = translatedRed - entity.offsetRed
-            right  = left + entity.width
-            bottom = top + entity.height
-
-            alpha = entity.image.split()[-1]
-            new_image.paste(entity.image, (left, top, right, bottom), mask=alpha)
-
-        self.image = new_image
 
     def translateRed(self, red):
         return red
@@ -71,8 +53,6 @@ class Map:
 
 class StandardMap(Map):
 
-    # black = { 0:368, 1:595, 2:821, 3:1040, 4:1263, 5:1483, 6:1704, 7:1927, 8:2147, 9:2371 }
-    # red = { 0:115, 1:344, 2:572, 3:795,  4:1010, 5:1231, 6:1451, 7:1676 }
     ORIGIN_RED = 0
     ORIGIN_BLACK = 252
     TILE_WIDTH = 220
