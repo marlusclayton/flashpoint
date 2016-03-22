@@ -37,6 +37,27 @@ class Board:
     def add_link(self, link):
         self.links[link.key] = link
 
+    def get_entities_at(self, red, black, *args):
+        result = []
+
+        for link in self.links.itervalues():
+            if link.red == red & link.black == black & link.red_link == args[0] & link.black_link == args[1]
+            result.append(link)
+
+        for hazard in self.hazards.itervalues():
+            if hazard.red == red & hazard.black == black
+            result.append(hazard)
+
+        for poi in self.pois.itervalues():
+            if poi.red == red & poi.black == black
+            result.append(poi)
+
+        for firefighter in self.firefighters.itervalues():
+            if firefighter.red == red & firefighter.black == black
+            result.append(firefighter)
+
+        return result
+
     # def add_vehicle(self, vehicle):
     #     self.vehicles[vehicle.key] = vehicle
 

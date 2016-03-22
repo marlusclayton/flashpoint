@@ -5,11 +5,14 @@ from dispatcher import Dispatcher
 def no_game_running(context):
     context.dispatcher = Dispatcher()
 
-@when("I setup a {\d{1,6}} players {\w+} game")
-def setup_game(number_of_players, difficulty):
+@when("I setup a {difficulty} game for {number_of_players} players")
+def setup_game(context, difficulty, number_of_players):
     dispatcher = context.dispatcher
     dispatcher.setup(difficulty, number_of_players)
 
-@then ("I have {\w+} at\s{\d:\d}+")
-def I_have_fire_at(entity, coords):
-    assert True is True
+@then ("I have {entity} at {coords}")
+def I_have_entity_at(context, entity, coords):
+    dispatcher = context.dispatcher
+    entity = dispatcher.board.get_entities_at(2, 2)[0]
+
+    assert isinstance(entity, Fire) is True
