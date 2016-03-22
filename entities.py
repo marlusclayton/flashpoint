@@ -2,7 +2,7 @@
 from __future__ import generators, unicode_literals
 from PIL import Image, ImageFilter
 
-class Entity:
+class Entity(object):
 
     def __init__(self, entity_type, red, black):
         self.entity_type = entity_type
@@ -17,8 +17,11 @@ class Entity:
         self.red = red
         self.black = black
 
+    def get_image_name(self):
+        return self.image_name
+
     def get_image(self):
-        return Image.open(self.image_name).resize((self.width,self.height))
+        return Image.open(self.get_image_name()).resize((self.width,self.height))
 
 
     def draw(self, board):

@@ -4,14 +4,16 @@ from PIL import Image, ImageFilter
 
 class Board:
 
+    available_pois = {"victim":10, "false_alarm":5}
     firefighters = {}
     hazards = {}
-    # pois = {}
-    # links = {}
+    pois = {}
+    links = {}
     # vehicles = {}
 
-    def __init__(self, name):
+    def __init__(self, name, side):
         self.name = name
+        self.side = side
 
     def add_firefighter(self, firefighter):
         self.firefighters[firefighter.role.lower()] = firefighter
@@ -20,25 +22,41 @@ class Board:
         return self.firefighters[role.lower()]
 
     def add_hazard(self, hazard):
-        self.hazards[hazard.id] = hazard
+        if not (self.hazards.has_key(hazard.key)):
+            self.hazards[hazard.key] = hazard
 
     def get_hazard(self, id):
         return self.hazards[id]
 
-    # def add_poi(self, poi):
-    #     self.pois[poi.id] = poi
-    #
-    # def add_link(self, link):
-    #     self.links[link.id] = link
-    #
+    def add_poi(self, poi):
+        remaining = self.available_pois[poi.entity_type]
+        if (remaining > 0):
+            self.available_pois[poi.entity_type] = remaining - 1
+            self.pois[poi.key] = poi
+
+    def add_link(self, link):
+        self.links[link.key] = link
+
     # def add_vehicle(self, vehicle):
-    #     self.vehicles[vehicle.id] = vehicle
+    #     self.vehicles[vehicle.key] = vehicle
+
+    def move_firefighter(self, role, direction):
+        firefighter = get_firefighter(role)
+
+#    def get_new_coord(self, red, black, direction):
+
 
     def draw(self):
-        self.image = Image.open( "assets/maps/{}.jpg".format(self.name) )
+        self.image = Image.open( "assets/maps/{}_{}.jpg".format(self.name, self.side) )
+
+        for link in self.links.itervalues():
+            link.draw(self)
 
         for hazard in self.hazards.itervalues():
             hazard.draw(self)
+
+        for poi in self.pois.itervalues():
+            poi.draw(self)
 
         for firefighter in self.firefighters.itervalues():
             firefighter.draw(self)
@@ -59,8 +77,8 @@ class StandardBoard(Board):
     TILE_HEIGHT = 220
     TILE_BORDER = 4
 
-    def __init__(self):
-        Board.__init__(self, "standard")
+    def __init__(self, side):
+        Board.__init__(self, "standard", side)
 
     def translateRed(self, red):
         red = self.ORIGIN_RED + (red * (self.TILE_BORDER + self.TILE_HEIGHT)) + (self.TILE_HEIGHT/2)

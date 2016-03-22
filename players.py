@@ -4,6 +4,6 @@ class Player:
 
     # COLORS = ["blue", "green", "orange", "red", "white", "yellow"]
 
-    def __init__(self, username, color):
-        self.username = username
+    def __init__(self, name, color):
+        self.name = name
         self.color = color
