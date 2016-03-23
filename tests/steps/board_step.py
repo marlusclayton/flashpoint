@@ -13,6 +13,6 @@ def setup_game(context, difficulty, number_of_players):
 @then ("I have {entity} at {coords}")
 def I_have_entity_at(context, entity, coords):
     dispatcher = context.dispatcher
-    entity = dispatcher.board.get_entities_at(2, 2)[0]
+    entity = dispatcher.board.get_entities_at(2, 2)
 
     assert isinstance(entity, Fire) is True

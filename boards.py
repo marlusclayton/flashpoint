@@ -37,11 +37,11 @@ class Board:
     def add_link(self, link):
         self.links[link.key] = link
 
-    def get_entities_at(self, red, black, *args):
+    def get_entities_at(self, red, black):
         result = []
 
         for link in self.links.itervalues():
-            if link.red == red & link.black == black & link.red_link == args[0] & link.black_link == args[1]
+            if link.red == red and link.black == black #and link.red_link == args[0] and link.black_link == args[1]
             result.append(link)
 
         for hazard in self.hazards.itervalues():
