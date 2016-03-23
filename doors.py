@@ -54,13 +54,13 @@ class Door(Entity):
         return self.black == self.black_link
 
     def at_west(self):
-        return self.is_horizontal() & (self.black < self.black_link)
+        return self.is_horizontal() and (self.black < self.black_link)
 
     def at_east(self):
-        return self.is_horizontal() & (self.black > self.black_link)
+        return self.is_horizontal() and (self.black > self.black_link)
 
     def at_north(self):
-        return self.is_vertical() & (self.red < self.red_link)
+        return self.is_vertical() and (self.red < self.red_link)
 
     def at_south (self):
-        return self.is_vertical() & (self.red > self.red_link)
+        return self.is_vertical() and (self.red > self.red_link)

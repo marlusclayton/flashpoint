@@ -31,10 +31,10 @@ class Entity(object):
         mixed_image = Image.new(board_image.mode, board_image.size)
         mixed_image.paste(board_image)
 
-        translatedRed = board.translateRed(self.red)
-        translatedBlack = board.translateBlack(self.black)
-        left   = translatedBlack - self.offsetBlack
-        top    = translatedRed - self.offsetRed
+        translated_red = board.translate_red(self.red)
+        translated_black = board.translate_black(self.black)
+        left   = translated_black - self.offsetBlack
+        top    = translated_red - self.offsetRed
         right  = left + self.width
         bottom = top + self.height
 

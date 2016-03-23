@@ -37,24 +37,24 @@ class Board:
     def add_link(self, link):
         self.links[link.key] = link
 
-    def get_entities_at(self, red, black):
+    def get_entities_at(self, red, black, *args):
         result = []
 
         for link in self.links.itervalues():
-            if link.red == red and link.black == black #and link.red_link == args[0] and link.black_link == args[1]
-            result.append(link)
+            if link.red == red and link.black == black and link.red_link == args[0] and link.black_link == args[1]:
+                result.append(link)
 
         for hazard in self.hazards.itervalues():
-            if hazard.red == red & hazard.black == black
-            result.append(hazard)
+            if hazard.red == red and hazard.black == black:
+                result.append(hazard)
 
         for poi in self.pois.itervalues():
-            if poi.red == red & poi.black == black
-            result.append(poi)
+            if poi.red == red and poi.black == black:
+                result.append(poi)
 
         for firefighter in self.firefighters.itervalues():
-            if firefighter.red == red & firefighter.black == black
-            result.append(firefighter)
+            if firefighter.red == red and firefighter.black == black:
+                result.append(firefighter)
 
         return result
 
@@ -84,10 +84,10 @@ class Board:
 
         self.image.save('output/output.jpg', 'JPEG')
 
-    def translateRed(self, red):
+    def translate_red(self, red):
         return red
 
-    def translateBlack(self, black):
+    def translate_black(self, black):
         return black
 
 class StandardBoard(Board):
@@ -101,10 +101,10 @@ class StandardBoard(Board):
     def __init__(self, side):
         Board.__init__(self, "standard", side)
 
-    def translateRed(self, red):
+    def translate_red(self, red):
         red = self.ORIGIN_RED + (red * (self.TILE_BORDER + self.TILE_HEIGHT)) + (self.TILE_HEIGHT/2)
-        return Board.translateRed(self, red)
+        return Board.translate_red(self, red)
 
-    def translateBlack(self, black):
+    def translate_black(self, black):
         black = self.ORIGIN_BLACK + (black * (self.TILE_BORDER + self.TILE_HEIGHT)) + (self.TILE_HEIGHT/2)
-        return Board.translateBlack(self, black)
+        return Board.translate_black(self, black)
