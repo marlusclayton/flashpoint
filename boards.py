@@ -1,8 +1,8 @@
 #!/usr/bin/python
 from __future__ import generators, unicode_literals
-from PIL import Image, ImageFilter
+from PIL import Image
 
-class Board:
+class Board(object):
 
     available_pois = {"victim":10, "false_alarm":5}
     firefighters = {}
@@ -22,15 +22,15 @@ class Board:
         return self.firefighters[role.lower()]
 
     def add_hazard(self, hazard):
-        if not (self.hazards.has_key(hazard.key)):
+        if not self.hazards.has_key(hazard.key):
             self.hazards[hazard.key] = hazard
 
-    def get_hazard(self, id):
-        return self.hazards[id]
+    def get_hazard(self, key):
+        return self.hazards[key]
 
     def add_poi(self, poi):
         remaining = self.available_pois[poi.entity_type]
-        if (remaining > 0):
+        if remaining > 0:
             self.available_pois[poi.entity_type] = remaining - 1
             self.pois[poi.key] = poi
 
@@ -41,8 +41,9 @@ class Board:
         result = []
 
         for link in self.links.itervalues():
-            if link.red == red and link.black == black and link.red_link == args[0] and link.black_link == args[1]:
-                result.append(link)
+            if link.red == red and link.black == black:
+                if link.red_link == args[0] and link.black_link == args[1]:
+                    result.append(link)
 
         for hazard in self.hazards.itervalues():
             if hazard.red == red and hazard.black == black:
@@ -62,13 +63,16 @@ class Board:
     #     self.vehicles[vehicle.key] = vehicle
 
     def move_firefighter(self, role, direction):
-        firefighter = get_firefighter(role)
+        firefighter = self.get_firefighter(role)
+        red, black = self.get_new_coord(firefighter.red, firefighter.black, direction)
+        firefighter.red = red
+        firefighter.black = black
 
-#    def get_new_coord(self, red, black, direction):
-
+    def get_new_coord(self, red, black, direction):
+        return (red, black) if direction else (black, red)
 
     def draw(self):
-        self.image = Image.open( "assets/maps/{}_{}.jpg".format(self.name, self.side) )
+        image = Image.open("assets/maps/{}_{}.jpg".format(self.name, self.side))
 
         for link in self.links.itervalues():
             link.draw(self)
@@ -82,7 +86,7 @@ class Board:
         for firefighter in self.firefighters.itervalues():
             firefighter.draw(self)
 
-        self.image.save('output/output.jpg', 'JPEG')
+        image.save('output/output.jpg', 'JPEG')
 
     def translate_red(self, red):
         return red
@@ -102,9 +106,13 @@ class StandardBoard(Board):
         Board.__init__(self, "standard", side)
 
     def translate_red(self, red):
-        red = self.ORIGIN_RED + (red * (self.TILE_BORDER + self.TILE_HEIGHT)) + (self.TILE_HEIGHT/2)
+        red = self.ORIGIN_RED
+        red += (red * (self.TILE_BORDER + self.TILE_HEIGHT))
+        red += (self.TILE_HEIGHT/2)
         return Board.translate_red(self, red)
 
     def translate_black(self, black):
-        black = self.ORIGIN_BLACK + (black * (self.TILE_BORDER + self.TILE_HEIGHT)) + (self.TILE_HEIGHT/2)
+        black = self.ORIGIN_BLACK
+        black += (black * (self.TILE_BORDER + self.TILE_HEIGHT))
+        black += (self.TILE_HEIGHT/2)
         return Board.translate_black(self, black)
